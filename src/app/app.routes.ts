@@ -1,14 +1,17 @@
 import { Routes } from '@angular/router';
-import { MainComponent } from './layout/main/main.component';
+import { HomeComponent } from './shared/pages/home/home.component';
 
 export const routes: Routes = [
   {
-    path: 'main',
-    component: MainComponent,
-    loadChildren: () => import('./features/features.routes'),
+    path: 'boards',
+    loadChildren: () => import('./features/boards/boards.routes'),
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
   },
   {
     path: '**',
-    redirectTo: 'main',
+    redirectTo: 'home',
   },
 ];

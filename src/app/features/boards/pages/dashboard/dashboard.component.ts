@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'boards-dashboard',
   imports: [],
   templateUrl: './dashboard.component.html',
   styles: `

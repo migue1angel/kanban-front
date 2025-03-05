@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-boards',
+  selector: 'app-board-list',
   imports: [],
-  templateUrl: './board.component.html',
+  templateUrl: './board-list.component.html',
   styles: `
     :host {
       display: block;
@@ -11,4 +11,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BoardComponent { }
+export class BoardListComponent { }

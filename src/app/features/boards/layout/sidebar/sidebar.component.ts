@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-nav',
+  selector: 'boards-sidebar',
   imports: [],
-  templateUrl: './nav.component.html',
+  templateUrl: './sidebar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavComponent { }
+export class SidebarComponent { }

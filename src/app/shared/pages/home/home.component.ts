@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'sidebar',
+  selector: 'app-home',
   imports: [],
-  templateUrl: './sidebar.component.html',
+  templateUrl: './home.component.html',
   styles: `
     :host {
       display: block;
@@ -11,4 +11,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarComponent { }
+export class HomeComponent { }
