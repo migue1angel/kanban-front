@@ -4,7 +4,7 @@ import { AccordionModule } from 'primeng/accordion';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, AccordionModule],
+  imports: [AccordionModule, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
