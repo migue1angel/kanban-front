@@ -1,7 +1,20 @@
-<nav class="h-12 flex  items-center bg-blend-saturation ">
-    <div class="mx-5">
-        <h1>Easy Task</h1>
+<p-menubar styleClass="dark:bg-surface-900">
+  <ng-template #start>
+    <h1 class="text-4xl font-bold mx-3">Easy Task</h1>
+    <p-button
+      size="small"
+      [rounded]="true"
+      [icon]="modeIcon()"
+      (click)="toggleDarkMode()"
+    />
+  </ng-template>
+  <ng-template #end>
+    <div class="flex items-center gap-2">
+      <input type="text" pInputText placeholder="Search" class="w-36" />
+      <p-avatar
+        image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+        shape="circle"
+      />
     </div>
-    <div class="flex-1 ">
-    </div>
-</nav>
+  </ng-template>
+</p-menubar>

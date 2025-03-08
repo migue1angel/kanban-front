@@ -4,7 +4,7 @@ import { HomeComponent } from './shared/pages/home/home.component';
 export const routes: Routes = [
   {
     path: 'boards',
-    loadChildren: () => import('./features/boards/boards.routes'),
+    loadChildren: () => import('./boards/boards.routes'),
   },
   {
     path: 'home',

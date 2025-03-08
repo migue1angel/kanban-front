@@ -1,14 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { BoardTaskComponent } from '../../components/board-task/board-task.component';
 
 @Component({
   selector: 'app-boards',
-  imports: [],
+  imports: [BoardTaskComponent],
   templateUrl: './board-detail.component.html',
-  styles: `
-    :host {
-      display: block;
-    }
-  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class BoardDetailComponent { }

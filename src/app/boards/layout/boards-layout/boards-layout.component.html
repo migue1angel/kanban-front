@@ -1,0 +1,10 @@
+<section class="flex flex-col h-screen">
+  <app-nav />
+  <!-- <p-divider styleClass="m-0" /> -->
+  <div class="flex grow">
+    <boards-sidebar class=" w-60 pt-12" />
+    <div class="grow p-5 bg-surface-100 dark:bg-surface-800">
+      <router-outlet />
+    </div>
+  </div>
+</section>

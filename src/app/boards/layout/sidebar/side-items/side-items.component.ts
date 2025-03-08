@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 interface SideItem {
@@ -16,16 +17,22 @@ interface SideItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SideItemsComponent {
-  protected sideItems:SideItem[] = [
+  protected icons = PrimeIcons;
+  protected sideItems: SideItem[] = [
     {
       label: 'Dashboard',
-      icon: 'pi pi-home',
+      icon: this.icons.CHART_BAR,
       route: 'dashboard',
     },
     {
       label: 'Boards',
-      icon: 'pi pi-desktop',  
+      icon: this.icons.OBJECTS_COLUMN,
       route: 'board-list',
+    },
+    {
+      label: 'Calendar',
+      icon: this.icons.CALENDAR_MINUS,
+      route: 'calendar',
     },
   ];
 }

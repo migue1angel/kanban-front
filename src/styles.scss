@@ -1,3 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
-@use "tailwindcss";
 @use "primeicons/primeicons.css";
+@use "tailwindcss";
+@plugin 'tailwindcss-primeui';
+@layer tailwind, primeng;
+
+@custom-variant dark (&:where(.my-app-dark, .my-app-dark *));     //dark mode configuration
