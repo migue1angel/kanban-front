@@ -1,14 +1,28 @@
-<ul>
-  @for(item of sideItems; track $index){
+@if (sidebarService.collapsed()) {
+
+<ul class="min-h-160 max-h-160 pt-12 overflow-hidden">
+  @for(item of sidebarService.sideItems; track $index){
+  <li class="w-10/12 mx-auto list-none" [pTooltip]="item.label" tooltipPosition="right">
+    <a [routerLink]="[item.route]" routerLinkActive="active bg-primary dark:text-black"
+      class="p-2 rounded-lg flex font-semibold items-center" [class.justify-center]="sidebarService.collapsed()">
+      <span [class]="item.icon"> </span>
+      @if (!sidebarService.collapsed()) {
+      <p class="ml-4">{{ item.label }}</p>
+      }
+    </a>
+  </li>
+  }
+</ul>
+}@else {
+<ul class="min-h-160 max-h-160 pt-12 overflow-hidden">
+  @for(item of sidebarService.sideItems; track $index){
   <li class="w-10/12 mx-auto list-none">
-    <a
-      [routerLink]="[item.route]"
-      routerLinkActive="active bg-primary dark:text-black"
-      class="p-2 rounded-lg flex font-semibold items-center"
-    >
+    <a [routerLink]="[item.route]" routerLinkActive="active bg-primary dark:text-black"
+      class="p-2 rounded-lg flex font-semibold items-center">
       <span [class]="item.icon"> </span>
       <p class="ml-4">{{ item.label }}</p>
     </a>
   </li>
   }
 </ul>
+}

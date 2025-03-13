@@ -29,7 +29,6 @@ export class NavComponent {
         ? this.icons.SUN
         : this.icons.MOON
     );
-    console.log(this.modeIcon());
   }
   items = [
     {

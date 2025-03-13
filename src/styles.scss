@@ -1,6 +1,8 @@
 @use "primeicons/primeicons.css";
 @use "tailwindcss";
+// @use "tailwindcss-primeui";
+
 @plugin 'tailwindcss-primeui';
-@layer tailwind, primeng;
+// @layer tailwind, primeng;
 
 @custom-variant dark (&:where(.my-app-dark, .my-app-dark *));     //dark mode configuration

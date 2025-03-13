@@ -3,8 +3,12 @@ import { HomeComponent } from './shared/pages/home/home.component';
 
 export const routes: Routes = [
   {
-    path: 'boards',
+    path: 'projects',
     loadChildren: () => import('./boards/boards.routes'),
+  },
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.routes'),
   },
   {
     path: 'home',

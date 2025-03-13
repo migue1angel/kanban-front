@@ -1,12 +1,23 @@
-<div class="min-h-160 max-h-160 overflow-auto">
-  <side-items />
+<div class="flex justify-center items-center gap-5 mt-3">
+  <h1 [ngClass]="sidebarService.collapsed() ? 'hidden': 'text-xl font-bold'">Easy Task</h1>
+  <p-button (click)="toggleSidebar()" [icon]="icons.BARS" severity="secondary" />
 </div>
-<div class="flex-1 flex flex-col items-center mb-5">
-  <p-divider styleClass="m-0" />
-  <button
-    class="w-2/3 p-2 gap-2 bg-surface-200 dark:bg-surface-600 rounded-lg flex justify-center items-center"
-  >
-    <span [class]="icons.SIGN_OUT"></span>
-    <span>Logout</span>
-  </button>
+
+<p-divider />
+<side-items />
+
+<div class="grow flex flex-col gap-2 items-center mb-5">
+  <p-divider />
+  <div class="flex items-center gap-2">
+    <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+    @if (!sidebarService.collapsed()) {
+    <span> Profile</span>
+    }
+  </div>
+
+  <div class="flex items-center justify-center gap-2" [ngClass]="sidebarService.collapsed() ? 'flex-col': ''">
+    <p-button size="small" severity="secondary" rounded [icon]="modeIcon()" (click)="toggleDarkMode()" />
+    <p-button size="small" severity="secondary" [label]="sidebarService.collapsed() ? '':'logout'"
+      [icon]="icons.SIGN_OUT" />
+  </div>
 </div>

@@ -3,6 +3,9 @@
         "angular-*": {
             "externalTemplate": true,
             "inlineStyle": true
+        },
+        "angular-component": {
+            "skipDisplayBlock": true
         }
     }
 }
