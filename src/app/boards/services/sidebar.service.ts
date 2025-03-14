@@ -14,7 +14,7 @@ interface SideItem {
 export class SidebarService {
   protected icons = PrimeIcons;
   public collapsed = signal<boolean>(true);
-  public sideItems = [
+  public sideItems:SideItem[] = [
     {
       label: 'Dashboard',
       icon: this.icons.CHART_BAR,

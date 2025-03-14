@@ -4,7 +4,6 @@ import { PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { SidebarService } from '../../../services/sidebar.service';
 import { TooltipModule } from 'primeng/tooltip';
-import boardsRoutes from '../../../boards.routes';
 
 
 
