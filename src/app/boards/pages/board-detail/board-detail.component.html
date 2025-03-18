@@ -1,11 +1,9 @@
 <div class="flex gap-3 flex-col h-full">
   <board-toolbar />
-  <div
-    class="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5 "
-  >
-    <board-column columnName="Por hacer" />
-    <board-column columnName="En progreso" />
-    <board-column columnName="Para revisión" />
-    <board-column columnName="Hecho" />
+  <div class="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5 ">
+    <board-column columnName="por hacer" [status]="taskStatus.TODO" />
+    <board-column columnName="en progreso" [status]="taskStatus.IN_PROGRESS" />
+    <board-column columnName="para revisión" [status]="taskStatus.IN_REVIEW" />
+    <board-column columnName="hecho" [status]="taskStatus.DONE" />
   </div>
 </div>

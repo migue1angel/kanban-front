@@ -1,21 +1,13 @@
-<section
-  class="max-h-full p-2 flex flex-col rounded-md bg-white dark:bg-surface-900 "
->
+<section class="min-h-full max-h-full p-2 flex flex-col rounded-md bg-white dark:bg-surface-900 ">
   <h1 class="font-bold text-2xl text-center text-primary">
-    {{ columnName() }}
+    {{ columnName() | titlecase }}
   </h1>
   <p-divider />
   <div class="flex-1 overflow-y-auto">
-    <board-task />
-    <board-task />
-    <board-task />
-    <board-task />
-    <board-task />
-    <board-task />
-    <board-task />
-    <board-task />
-    <board-task />
-    <board-task />
-    <board-task />
+    @for (task of tasks(); track task.id) {
+    <board-task [task]="task" [columnState]="status()" />
+    } @empty {
+    <p class="text-center text-4xl text-surface-300 dark:text-surface-700">No hay tareas {{columnName()}}</p>
+    }
   </div>
 </section>

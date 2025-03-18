@@ -1,33 +1,36 @@
-<div class="flex my-2  flex-col gap-2 border-2 rounded-md p-3" [ngClass]="{
-    'border-red-300 ': priority === 'urgent',
-    'border-primary-300 ': priority === 'important',
-    'border-surface-300 ': priority === 'regular'
+@if (task()) {
+<div class="flex my-3  flex-col gap-2 border-2 rounded-md p-3" [ngClass]="{
+    'border-red-300 ': task().priority === 'urgent',
+    'border-primary-300 ': task().priority === 'important',
+    'border-surface-300 ': task().priority === 'regular'
   }">
   <div class="flex justify-between items-center">
     <p class="text-xl text-surface-700 dark:text-surface-300 font-bold">
-      1. Hacer prototipo del page
+      {{ task().title }}
     </p>
-    <p-menu #menu [model]="items"  [popup]="true" />
+    <p-menu #menu [model]="statusOptions" [popup]="true">
+      <ng-template #start>
+        <span class="ml-2 text-primary">Cambiar estado:</span>
+      </ng-template>
+      <ng-template #item let-item>
+        <div class="cursor-pointer ml-2" (click)="tasksHttpService.changeStatus(task().id, item.status)">
+          <span>{{item.label}}</span>
+        </div>
+      </ng-template>
+    </p-menu>
     <p-button (click)="menu.toggle($event)" severity="secondary" size="small" icon="pi pi-ellipsis-v" />
 
   </div>
 
   <div class="flex flex-col text-sm md:flex-row items-start md:items-center mb-2 dark:text-surface-300">
-    <span>13/06/2026</span>
-    <span class="hidden md:block">
-      <p-divider layout="vertical" />
-    </span>
-    <div class="flex items-center gap-2">
-      <i [class]="icons.STOPWATCH"></i>
-      <span class="flex">13:30</span>
-    </div>
+    <span>{{task().dueDate | date }}</span>
   </div>
 
   <span class="flex justify-center max-w-1/2 rounded-lg p-0.5 text-sm" [ngClass]="{
-      'text-red-800 bg-red-300': priority === 'urgent',
-      'text-primary-800 bg-primary-300': priority === 'important',
-      'text-surface-800 bg-surface-300': priority === 'regular'
-    }">{{ priority | titlecase }}</span>
+      'text-red-800 bg-red-300': task().priority === 'urgent',
+      'text-primary-800 bg-primary-300': task().priority === 'important',
+      'text-surface-800 bg-surface-300': task().priority === 'regular'
+    }">{{ task().priority| titlecase }}</span>
 
   <div class="flex justify-between mt-3">
     <div class="flex items-center gap-2">
@@ -40,3 +43,4 @@
     </div>
   </div>
 </div>
+}

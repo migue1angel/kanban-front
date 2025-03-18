@@ -4,10 +4,10 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { TasksHttpService } from '../../services/tasks-http.service';
 import { BoardColumnComponent } from '../../components/board-column/board-column.component';
 import { BoardToolbarComponent } from '../../components/board-toolbar/board-toolbar.component';
 import { TaskStatus } from '../../models/task.model';
+import { TasksService } from '../../services/tasks.service';
 
 @Component({
   selector: 'board-detail',
@@ -16,19 +16,9 @@ import { TaskStatus } from '../../models/task.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class BoardDetailComponent implements OnInit {
-  private readonly tasksHttpService = inject(TasksHttpService);
-
+  private readonly tasksService = inject(TasksService);
   ngOnInit(): void {
-    console.log(this.tasksHttpService.getTasksByStatus(TaskStatus.DONE));
-    
+    this.tasksService.getTasks('11e45685-047b-4a74-bb8f-ab958f458271');
   }
-
-  // changeStatus() {
-  //   this.tasksHttpService.tasks.update((value) => {
-  //     const newTasks = [...value];
-  //     newTasks[2].status = 'in_progress';
-  //     return newTasks;
-  //   });
-  //   console.log(this.tasksHttpService.doneTasks());
-  // }
+  protected taskStatus = TaskStatus;
 }
