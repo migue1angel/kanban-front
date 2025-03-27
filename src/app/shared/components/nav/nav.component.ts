@@ -5,6 +5,7 @@ import { AvatarModule } from 'primeng/avatar';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { PrimeIcons } from 'primeng/api';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-nav',
@@ -14,6 +15,7 @@ import { PrimeIcons } from 'primeng/api';
     AvatarModule,
     InputTextModule,
     ButtonModule,
+    RouterLink
   ],
   templateUrl: './nav.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,29 +34,19 @@ export class NavComponent {
   }
   items = [
     {
-      label: 'Home',
-      icon: 'pi pi-home',
+      label: 'Dashboard',
+      icon: this.icons.CHART_BAR,
+      route: 'dashboard',
     },
     {
-      label: 'Projects',
-      icon: 'pi pi-search',
-      items: [
-        {
-          label: 'Core',
-          icon: 'pi pi-bolt',
-        },
-        {
-          label: 'Blocks',
-          icon: 'pi pi-server',
-        },
-        {
-          separator: true,
-        },
-        {
-          label: 'UI Kit',
-          icon: 'pi pi-pencil',
-        },
-      ],
+      label: 'Boards',
+      icon: this.icons.OBJECTS_COLUMN,
+      route: 'boards',
+    },
+    {
+      label: 'Calendar',
+      icon: this.icons.CALENDAR_MINUS,
+      route: 'calendar',
     },
   ];
 }

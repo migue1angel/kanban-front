@@ -1,0 +1,30 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <p-fluid class="grid grid-cols-2 gap-4 mb-10">
+
+    <div class="col-span-2">
+      <label for="title" class="form-label">Título</label>
+      <input pInputText formControlName="title" id="title" placeholder="Título de la tarea" />
+    </div>
+
+    <div class="col-span-2">
+      <label for="description" class="form-label">Descripción</label>
+      <textarea rows="5" pTextarea formControlName="description" id="description"
+        placeholder="Descripción de la tarea"></textarea>
+    </div>
+
+    <div>
+      <label for="priority" class="form-label">Prioridad</label>
+      <p-select [options]="priorities" optionValue="value" formControlName="priority" id="priority"
+        placeholder="Prioridad de la tarea"></p-select>
+    </div>
+    <div>
+      <label for="dueDate" class="form-label">Fecha de vencimiento</label>
+      <p-datepicker formControlName="dueDate" id="dueDate"></p-datepicker>
+    </div>
+
+    <div class="col-span-2">
+      <p-button styleClass="col-span-2" type="submit" label="Guardar" size="large" [disabled]="!form.valid"></p-button>
+    </div>
+  </p-fluid>
+
+</form>

@@ -1,5 +1,6 @@
 <div class="flex gap-3 flex-col h-full">
-  <board-toolbar />
+  <board-toolbar (visibleMemberOutput)="showMembersDialog($event)"
+    (visibleTaskFormOutput)="showTaskFormDialog($event)" />
   <div class="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5 ">
     <board-column columnName="por hacer" [status]="taskStatus.TODO" />
     <board-column columnName="en progreso" [status]="taskStatus.IN_PROGRESS" />
@@ -7,3 +8,11 @@
     <board-column columnName="hecho" [status]="taskStatus.DONE" />
   </div>
 </div>
+
+<p-dialog header="Nueva tarea" [modal]="true" [(visible)]="taskFormVisible" styleClass="h-2/3">
+  <task-form></task-form>
+</p-dialog>
+
+<p-dialog header="Agregar miembro de equipo" [modal]="true" [(visible)]="memberFormVisible">
+  
+</p-dialog>

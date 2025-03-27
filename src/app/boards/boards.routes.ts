@@ -28,7 +28,7 @@ export const boardsRoutes: Routes = [
           },
           {
             path: '**',
-            redirectTo: '',
+            redirectTo: 'list',
           },
         ],
       },

@@ -1,16 +1,41 @@
-<p-menubar styleClass="dark:bg-surface-900">
+<p-menubar styleClass="dark:bg-surface-900" [model]="items">
   <ng-template #start>
-    <h1 class="text-4xl font-bold mx-3">Easy Task</h1>
-    <p-button
-      size="small"
-      [rounded]="true"
-      [icon]="modeIcon()"
-      (click)="toggleDarkMode()"
-    />
+    <h1 class="text-2xl font-semibold my-1 text-primary">Easy Task</h1>
   </ng-template>
+  <ng-template #item let-item>
+    @if (item.route) {
+    <ng-container>
+      <a [routerLink]="item.route" class="p-menubar-item-link">
+        <span [class]="item.icon"></span>
+        <span >{{ item.label }}</span>
+      </a>
+    </ng-container>
+    }@else if (item.url) {
+    <ng-template #urlRef>
+      <a [href]="item.url" class="p-menubar-item-link">
+        <span [class]="item.icon"></span>
+        <span >{{ item.label }}</span>
+      </a>
+    </ng-template>
+    }@else{
+    <ng-template #noLink>
+      <div class="p-menubar-item-link">
+        <span [class]="item.icon"></span>
+        <span >{{ item.label }}</span>
+        <span class="pi pi-fw pi-angle-down ml-2"></span>
+      </div>
+    </ng-template>
+    }
+  </ng-template>
+
   <ng-template #end>
     <div class="flex items-center gap-2">
-      <input type="text" pInputText placeholder="Search" class="w-36" />
+      <p-button
+        size="small"
+        [rounded]="true"
+        [icon]="modeIcon()"
+        (click)="toggleDarkMode()"
+      />
       <p-avatar
         image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
         shape="circle"

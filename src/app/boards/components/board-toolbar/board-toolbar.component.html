@@ -1,16 +1,11 @@
 <p-toolbar>
     <ng-template #start>
-        <p-button icon="pi pi-plus" class="mr-2" text severity="secondary" />
-        <p-button icon="pi pi-print" class="mr-2" text severity="secondary" />
-        <p-button icon="pi pi-upload" text severity="secondary" />
+        <p-button icon="pi pi-plus" label="Integrantes" class="mr-2" text severity="secondary" (click)="visibleMemberOutput.emit(true)"/>
     </ng-template>
     <ng-template #center>
-        <p-iconfield iconPosition="left">
-            <p-inputicon styleClass="pi pi-search" />
-            <input type="text" pInputText placeholder="Search" />
-        </p-iconfield>
+        <span class="text-2xl font-bold">Nombre del Tablero</span>
     </ng-template>
     <ng-template #end>
-        <p-splitbutton label="Save" [model]="items" />
+        <p-button label="Nueva tarea" icon="pi pi-plus" (click)="visibleTaskFormOutput.emit(true)" />
     </ng-template>
 </p-toolbar>

@@ -1,0 +1,37 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <p-fluid class="grid gap-5">
+    <div>
+      <label for="name" class="form-label">Nombre</label>
+      <input
+        pInputText
+        formControlName="name"
+        id="name"
+        placeholder="Nombre del tablero"
+      />
+    </div>
+
+    <div>
+      <label for="description" class="form-label">Descripción</label>
+      <textarea
+        rows="5"
+        pTextarea
+        formControlName="description"
+        id="description"
+        placeholder="Descripción del tablero"
+      ></textarea>
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+      <p-chip label="Action" />
+      <p-chip label="Comedy" />
+      <p-chip label="Mystery" [removable]="true" />
+      <p-chip label="Mystery" [removable]="true" />
+    </div>
+
+    <div>
+      <label for="memberTeam" class="form-label">Miembros del equipo</label>
+      <p-autocomplete formControlName="memberTeam" placeholder="Email o nombre de usuario" [suggestions]="filteredSuggestions" (completeMethod)="filterSuggestion($event)" field="memberTeam" />
+    </div>
+
+  </p-fluid>
+</form>

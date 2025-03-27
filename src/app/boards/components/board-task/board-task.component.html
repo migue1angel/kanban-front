@@ -10,6 +10,11 @@
     </p>
     <p-menu #menu [model]="statusOptions" [popup]="true">
       <ng-template #start>
+        <div class="flex gap-1 mt-2 items-center justify-center">
+          <p-button severity="primary" size="small" icon="pi pi-pencil" />
+          <p-button severity="danger" size="small" icon="pi pi-trash" />
+        </div>
+        <p-divider></p-divider>
         <span class="ml-2 text-primary">Cambiar estado:</span>
       </ng-template>
       <ng-template #item let-item>
@@ -19,6 +24,7 @@
       </ng-template>
     </p-menu>
     <p-button (click)="menu.toggle($event)" severity="secondary" size="small" icon="pi pi-ellipsis-v" />
+    
 
   </div>
 
