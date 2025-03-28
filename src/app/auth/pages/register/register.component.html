@@ -2,27 +2,46 @@
     <div class="container mx-auto h-screen grid place-items-center">
         <div
             class="relative flex flex-col bg-white text-gray-700 md:px-24 md:py-14 py-8 border border-gray-300 rounded-xl">
-            <div class="relative mt-4 mx-4 text-center">
-                <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-blue-gray-900 mb-4">
-                    Register Simplified
+            <div class="relative mx-4 text-center">
+                <h1 class="text-2xl md:text-4xl font-semibold leading-tight text-blue-gray-900 mb-2">
+                    Registro Kanban
                 </h1>
                 <p class="text-base md:max-w-sm text-gray-600">
-                    Enjoy quick and secure access to your accounts on various Web3 platforms.
+                    Disfruta la experiencia en la gestion de tareas.
                 </p>
             </div>
-            <div class="p-6">
-                <form action="#" class="flex flex-col gap-4 md:mt-12">
+            <div class="p-1">
+                <form [formGroup]="form" action="#" class="flex flex-col gap-4 md:mt-3">
+                    <!-- UserName -->
+                    <div>
+                        <label for="userName">
+                            <p class="text-sm font-medium text-blue-gray-900">
+                                Nombre: </p>
+                        </label>
+                        <input id="userName" type="userName" name="userName" placeholder="userName" formControlName="userName"
+                            class="w-full mt-2 h-full bg-transparent text-blue-gray-700 border border-blue-gray-200 focus:border-primary-200 rounded-md p-3 text-sm" />
+                    </div>
+                    <!-- Email -->
                     <div>
                         <label for="email">
                             <p class="text-sm font-medium text-blue-gray-900">
                                 Email: </p>
                         </label>
-                        <input id="email" type="email" name="email" placeholder="name@mail.com"
+                        <input id="email" type="email" name="email" placeholder="name@mail.com" formControlName="email"
+                            class="w-full mt-2 h-full bg-transparent text-blue-gray-700 border border-blue-gray-200 focus:border-primary-200 rounded-md p-3 text-sm" />
+                    </div>
+                    <!-- Password -->
+                    <div>
+                        <label for="password">
+                            <p class="text-sm font-medium text-blue-gray-900">
+                                Password: </p>
+                        </label>
+                        <input id="password" type="password" name="password" placeholder="*******" formControlName="password"
                             class="w-full mt-2 h-full bg-transparent text-blue-gray-700 border border-blue-gray-200 focus:border-primary-200 rounded-md p-3 text-sm" />
                     </div>
 
-                    <p-button pRipple styleClass="w-full box" label="CONTINUE" severity="contrast" />
-                    <p-button pRipple styleClass="w-full box" icon="pi pi-google" label="Sign in with google"  />
+                    <p-button (click)="submit()" styleClass="w-full box" label="CONTINUE" severity="contrast" />
+                    <p-button styleClass="w-full box" icon="pi pi-google" label="Sign in with google"  />
                     <p class="text-sm text-center mx-auto max-w-[19rem] text-gray-600">
                         Do you already have an account? <a routerLink="auth/login" class="font-bold text-gray-900">Login</a>
                     </p>

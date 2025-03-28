@@ -2,30 +2,44 @@
     <div class="container mx-auto h-screen grid place-items-center">
         <div
             class="relative flex flex-col bg-white text-gray-700 md:px-24 md:py-14 py-8 border border-gray-300 rounded-xl">
-            <div class="relative mt-4 mx-4 text-center">
-                <h1 class="text-3xl md:text-4xl font-semibold leading-tight text-blue-gray-900 mb-4">
-                    Web3 Login Simplified
+            <div class="relative mt-2 mx-4 text-center">
+                <h1 class="text-3xl md:text-4xl font-semibold leading-tight mb-2" style="color: darkorange;">
+                    Kanban Board
                 </h1>
                 <p class="text-base md:max-w-sm text-gray-600">
                     Enjoy quick and secure access to your accounts on various Web3 platforms.
                 </p>
             </div>
-            <div class="p-6">
-                <form action="#" class="flex flex-col gap-4 md:mt-12">
+            <div class="p-4">
+                <form [formGroup]="form" action="#" class="flex flex-col gap-4 md:mt-8">
+
+                    <!-- Email -->
                     <div>
                         <label for="email">
                             <p class="text-sm font-medium text-blue-gray-900">
                                 Email: </p>
                         </label>
-                        <input id="email" type="email" name="email" placeholder="name@mail.com"
+                        <input id="email" type="email" name="email" placeholder="name@mail.com" formControlName="email"
                             class="w-full mt-2 h-full bg-transparent text-blue-gray-700 border border-blue-gray-200 focus:border-primary-200 rounded-md p-3 text-sm" />
                     </div>
 
-                    <p-button pRipple styleClass="w-full box" label="CONTINUE" severity="contrast" />
-                    <p-button pRipple styleClass="w-full box" icon="pi pi-google" label="Sign in with google"  />
-                    <p class="text-sm text-center mx-auto max-w-[19rem] text-gray-600">
-                        Don't you have an account? <a routerLink="/auth/register" class="font-bold text-gray-900">Sign up</a>
-                    </p>
+                    <!-- Password -->
+                    <div>
+                        <label for="password">
+                            <p class="text-sm font-medium text-blue-gray-900">
+                                Password: </p>
+                        </label>
+                        <input id="password" type="password" name="password" placeholder="********" formControlName="password"
+                            class="w-full mt-2 h-full bg-transparent text-blue-gray-700 border border-blue-gray-200 focus:border-primary-200 rounded-md p-3 text-sm" />
+                    </div>
+
+                    <div>
+                        <p-button (click)="submit()" styleClass="w-full box mt-2" label="CONTINUE" severity="contrast" />
+                        <p-button pRipple styleClass="w-full box mt-2" icon="pi pi-google" label="Sign in with google"  />
+                        <p class="text-sm text-center mx-auto max-w-[19rem] text-gray-600 mt-3">
+                            Don't you have an account? <a routerLink="/auth/register" class="font-bold text-gray-900">Sign up</a>
+                        </p>
+                    </div>
                 </form>
             </div>
         </div>
