@@ -3,6 +3,8 @@ import {
   Component,
   inject,
   input,
+  PLATFORM_ID,
+  signal,
 } from '@angular/core';
 import { DividerModule } from 'primeng/divider';
 import { DatePipe, NgClass, TitleCasePipe } from '@angular/common';
@@ -13,6 +15,7 @@ import { ToastModule } from 'primeng/toast';
 import { Menu } from 'primeng/menu';
 import { Task, TaskStatus } from '../../models/task.model';
 import { TasksService } from '../../services/tasks.service';
+import { DialogModule } from 'primeng/dialog';
 
 @Component({
   selector: 'board-task',
@@ -25,6 +28,7 @@ import { TasksService } from '../../services/tasks.service';
     Menu,
     ToastModule,
     DatePipe,
+    DialogModule,
   ],
   providers: [MessageService],
   templateUrl: './board-task.component.html',
@@ -32,15 +36,27 @@ import { TasksService } from '../../services/tasks.service';
 })
 export class BoardTaskComponent {
   protected readonly tasksHttpService = inject(TasksService);
-  // @Input({ required: true }) task!: Task;
   public task = input.required<Task>();
   public columnState = input.required<TaskStatus>();
   protected icons = PrimeIcons;
+  protected commentsDialogVisible = signal<boolean>(true);
+  protected attachmentsDialogVisible = signal<boolean>(true);
+  
+  visibleComments: boolean = false;
+  visibleAttachments: boolean = false;
 
+  showDialog() {
+      this.visibleComments = true;
+  }
+  showAttachmentsDialog() {
+    this.visibleAttachments = true;
+  }
+  
   get statusOptions() {
     return this.items.filter((item) => item.status !== this.columnState());
   }
-  items = [
+
+  protected items = [
     {
       label: 'Por hacer',
       status: TaskStatus.TODO,
