@@ -13,6 +13,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { BoardFormComponent } from '../../components/board-form/board-form.component';
+import { RouterLink } from '@angular/router';
 
 interface Board {
   name: string;
@@ -30,6 +31,7 @@ interface Board {
     InputTextModule,
     DialogModule,
     BoardFormComponent,
+    RouterLink
   ],
   templateUrl: './board-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,21 +39,25 @@ interface Board {
 export class BoardListComponent {
   protected boards = [
     {
+      id:1,
       name: 'Proyecto kanban con Angular y Nest',
       description:
         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin l and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
     },
     {
+      id:2,
       name: 'Proyecto prueba con Angular y Nest',
       description:
         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin l and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
     },
     {
+      id:3,
       name: 'Proyecto datascience con Angular y Nest',
       description:
         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin l and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
     },
     {
+      id:4,
       name: 'Proyecto machine learning con Angular y Nest',
       description:
         'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin l and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',

@@ -22,7 +22,7 @@ export const boardsRoutes: Routes = [
             component: BoardListComponent,
           },
           {
-            path: 'board/:id',
+            path: ':id',
             loadComponent: () =>
               import('./pages/board-detail/board-detail.component'),
           },

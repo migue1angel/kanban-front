@@ -1,0 +1,2 @@
+<p-autocomplete formControlName="memberTeam" placeholder="Email o nombre de usuario" [suggestions]="filteredSuggestions"
+    (completeMethod)="filterSuggestion($event)" (onSelect)="memberTeam.emit($event.value)"/>

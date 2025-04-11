@@ -54,7 +54,7 @@
         <p class="text-gray-600 dark:text-gray-400">{{ board.description }}</p>
       </div>
       <div class="text-right">
-        <p-button severity="contrast" label="Ver tablero" />
+        <p-button severity="contrast" label="Ver tablero" [routerLink]="['/projects/boards', board.id]" />
       </div>
     </div>
     }
