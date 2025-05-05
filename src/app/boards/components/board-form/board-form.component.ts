@@ -24,6 +24,8 @@ import { ChipModule } from 'primeng/chip';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TeamMemberFormComponent } from '../team-member-form/team-member-form.component';
 import { CustomLabelDirective } from '../../../shared/directives/custom-label.directive';
+import { BoardsHttpService } from '../../services/boards-http.service';
+import { User } from '../../../auth/models/user.model';
 
 interface TaskPriorities {
   label: string;
@@ -51,8 +53,11 @@ interface TaskPriorities {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardFormComponent implements OnInit {
-  protected membersTeam = signal<string[]>([]);
   private readonly fb = inject(FormBuilder);
+  private readonly boardsHttpService = inject(BoardsHttpService);
+  
+  protected form!: FormGroup;
+  protected membersTeam = signal<User[]>([]);
   protected readonly statuses = Object.values(TaskStatus);
   protected readonly priorities: TaskPriorities[] = [
     {
@@ -68,7 +73,6 @@ export class BoardFormComponent implements OnInit {
       value: 'important',
     },
   ];
-  protected form!: FormGroup;
 
   ngOnInit(): void {
     this.buildForm();
@@ -83,18 +87,18 @@ export class BoardFormComponent implements OnInit {
     });
   }
 
-  addMember(member: string) {
+  addMember(member: User) {
     if (member && !this.membersTeam().includes(member)) {
       this.membersTeam.update((prev) => [...prev, member]);
     }
   }
-  removeMember(member: string) {
+  removeMember(member: User) {
     this.membersTeam.update((prev) => prev.filter((m) => m !== member));
   }
 
   onSubmit() {
     if (!this.form.valid) return;
-    
+    this.boardsHttpService.create(this.form.value).subscribe();
   }
 
   get name(): AbstractControl {

@@ -5,48 +5,27 @@
     </ng-template>
     <ng-template #center>
       <p-iconfield iconPosition="left">
-        <input
-          #searchInput
-          type="text"
-          pInputText
-          placeholder="Search"
-          (keyup)="searchText.set(searchInput.value)"
-        />
+        <input #searchInput type="text" pInputText placeholder="Search" (keyup)="searchText.set(searchInput.value)" />
       </p-iconfield>
     </ng-template>
     <ng-template #end>
-      <p-button
-        label="Nuevo"
-        icon="pi pi-plus"
-        size="small"
-        (click)="showBoardFormDialog()"
-      />
+      <p-button label="Nuevo" icon="pi pi-plus" size="small" (click)="showBoardFormDialog()" />
     </ng-template>
   </p-toolbar>
 </div>
 
-<p-dialog
-  header="Nuevo tablero"
-  [modal]="true"
-  styleClass="h-2/3"
-  [(visible)]="visible"
-  [style]="{ width: '25rem' }"
->
+<p-dialog header="Nuevo tablero" [modal]="true" styleClass="h-full overflow-auto" [(visible)]="visible"
+  [style]="{ width: '25rem' }">
   <board-form />
 </p-dialog>
 
 <div class="container mx-auto p-2 mt-5">
-  <div
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"
-  >
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
     @for (board of filteredBoards(); track $index) {
     <div
-      class="bg-white dark:bg-surface-900 rounded-lg shadow-md p-4 hover:shadow-lg transition-transform transform hover:-translate-y-1"
-    >
+      class="bg-white dark:bg-surface-900 rounded-lg shadow-md p-4 hover:shadow-lg transition-transform transform hover:-translate-y-1">
       <div class="mb-3">
-        <h2
-          class="text-xl font-semibold font-bold text-gray-800 dark:text-gray-100"
-        >
+        <h2 class="text-xl font-semibold font-bold text-gray-800 dark:text-gray-100">
           {{ board.name }}
         </h2>
       </div>

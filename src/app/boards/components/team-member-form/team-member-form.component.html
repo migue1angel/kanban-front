@@ -1,2 +1,10 @@
-<p-autocomplete formControlName="memberTeam" placeholder="Email o nombre de usuario" [suggestions]="filteredSuggestions"
-    (completeMethod)="filterSuggestion($event)" (onSelect)="memberTeam.emit($event.value)"/>
+<p-autocomplete formControlName="memberTeam" placeholder="Email o nombre de usuario"
+    [suggestions]="suggestions.value()!" [delay]="500" optionLabel="email" (completeMethod)="query.set($event.query)"
+    (onSelect)="memberTeam.emit($event.value)">
+    <ng-template let-user #item>
+        <div class="flex flex-col justify-center">
+            <small class="text-base ">{{user.username}}</small>
+            <small class="text-sm text-gray-500">{{user.email}}</small>
+        </div>
+    </ng-template>
+</p-autocomplete>
