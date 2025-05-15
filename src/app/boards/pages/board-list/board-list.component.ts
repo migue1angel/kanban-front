@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   effect,
+  inject,
+  OnInit,
+  resource,
   signal,
 } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
@@ -14,11 +16,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { BoardFormComponent } from '../../components/board-form/board-form.component';
 import { RouterLink } from '@angular/router';
-
-interface Board {
-  name: string;
-  description: string;
-}
+import { firstValueFrom } from 'rxjs';
+import { BoardsHttpService } from '../../services/boards-http.service';
+import { Board } from '../../models/board.model';
 
 @Component({
   selector: 'app-board-list',
@@ -31,50 +31,32 @@ interface Board {
     InputTextModule,
     DialogModule,
     BoardFormComponent,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './board-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BoardListComponent {
-  protected boards = [
-    {
-      id:1,
-      name: 'Proyecto kanban con Angular y Nest',
-      description:
-        'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin l and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-    },
-    {
-      id:2,
-      name: 'Proyecto prueba con Angular y Nest',
-      description:
-        'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin l and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-    },
-    {
-      id:3,
-      name: 'Proyecto datascience con Angular y Nest',
-      description:
-        'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin l and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-    },
-    {
-      id:4,
-      name: 'Proyecto machine learning con Angular y Nest',
-      description:
-        'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin l and 1.10.33 from de Finibus Bonorum et Malorum by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-    },
-  ];
-
+export class BoardListComponent implements OnInit {
+  private readonly boardsHttpService = inject(BoardsHttpService);
+  
+  protected boards = signal<Board[]>([]);
   protected searchText = signal('');
-  protected filteredBoards = signal(this.boards);
+  protected filteredBoards = signal<Board[]>([]);
+  protected visibleDialogBoardForm = signal(false);
+
+  ngOnInit(): void {
+    this.getBoards();
+  }
+
   protected filterBoards = effect((onCleanup) => {
     if (this.searchText() === '') {
-      this.filteredBoards.set(this.boards);
+      this.filteredBoards.set(this.boards());
       return;
     }
     const timeout = setTimeout(() => {
       const query = this.searchText().toLowerCase();
       this.filteredBoards.set(
-        this.boards.filter((board) => {
+        this.boards().filter((board) => {
           return board.name.toLowerCase().includes(query);
         })
       );
@@ -82,8 +64,16 @@ export class BoardListComponent {
     onCleanup(() => clearTimeout(timeout));
   });
 
-  visible = signal(false);
   showBoardFormDialog() {
-    this.visible.set(true);
+    this.visibleDialogBoardForm.set(true);
+  }
+
+  getBoards() {
+    this.boardsHttpService
+      .findByUserId('1dc0951d-0f82-459b-9705-72c4b375cfe7')
+      .subscribe((boards) => {
+        this.boards.set(boards);
+        this.visibleDialogBoardForm.set(false);
+      });
   }
 }

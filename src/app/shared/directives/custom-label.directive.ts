@@ -1,4 +1,4 @@
-import { Directive, ElementRef, inject, input, OnInit } from '@angular/core';
+import { Directive, ElementRef, input, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[appCustomLabel]',

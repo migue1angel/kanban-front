@@ -10,9 +10,9 @@
 </div>
 
 <p-dialog header="Nueva tarea" [modal]="true" [(visible)]="taskFormVisible" styleClass="h-2/3">
-  <task-form></task-form>
-</p-dialog>
+  <task-form [boardId]="id" (closeDialog)="taskFormVisible.set($event)"></task-form>
+</p-dialog> 
 
 <p-dialog header="Agregar miembro de equipo" [modal]="true" [(visible)]="memberFormVisible">
-  
+
 </p-dialog>

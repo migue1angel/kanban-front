@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   inject,
+  input,
   OnInit,
+  output,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -21,6 +23,8 @@ import { SelectModule } from 'primeng/select';
 import { DatePickerModule } from 'primeng/datepicker';
 import { TextareaModule } from 'primeng/textarea';
 import { Fluid } from 'primeng/fluid';
+import { TasksHttpService } from '../../services/tasks-http.service';
+import { TasksService } from '../../services/tasks.service';
 
 interface TaskPriorities {
   label: string;
@@ -44,8 +48,11 @@ interface TaskPriorities {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskFormComponent implements OnInit {
+  public boardId = input.required<string>();
   private readonly fb = inject(FormBuilder);
-  protected readonly statuses = Object.values(TaskStatus);
+  private readonly tasksHttpService = inject(TasksHttpService);
+  private readonly tasksService = inject(TasksService);
+  protected closeDialog = output<boolean>();
   protected readonly priorities: TaskPriorities[] = [
     {
       label: 'Urgente',
@@ -71,13 +78,30 @@ export class TaskFormComponent implements OnInit {
       title: ['', [Validators.required]],
       description: [''],
       dueDate: [new Date(), [Validators.required]],
-      priority: [TaskPriority.REGULAR, [Validators.required]],
+      priority: [null, [Validators.required]],
+      board: [this.boardId(), [Validators.required]],
+      taskAssignments: [[]],
     });
   }
 
   onSubmit() {
-    console.log(this.form.value);
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    this.createTask();
   }
+
+  createTask() {
+    this.tasksHttpService.create(this.form.value).subscribe((res) => {
+      this.tasksService.getTasks(this.boardId());
+      this.closeDialog.emit(false);
+      this.form.reset();
+      this.form.controls['dueDate'].setValue(new Date());
+      this.form.controls['board'].setValue(this.boardId());
+    });
+  }
+
   get title(): AbstractControl {
     return this.form.controls['title'];
   }
@@ -92,5 +116,8 @@ export class TaskFormComponent implements OnInit {
 
   get priority(): AbstractControl {
     return this.form.controls['priority'];
+  }
+  get board(): AbstractControl {
+    return this.form.controls['board'];
   }
 }

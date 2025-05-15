@@ -14,9 +14,9 @@
   </p-toolbar>
 </div>
 
-<p-dialog header="Nuevo tablero" [modal]="true" styleClass="h-full overflow-auto" [(visible)]="visible"
+<p-dialog header="Nuevo tablero" [modal]="true" styleClass="h-auto overflow-auto" [(visible)]="visibleDialogBoardForm"
   [style]="{ width: '25rem' }">
-  <board-form />
+  <board-form (reloadBoards)="getBoards()" />
 </p-dialog>
 
 <div class="container mx-auto p-2 mt-5">

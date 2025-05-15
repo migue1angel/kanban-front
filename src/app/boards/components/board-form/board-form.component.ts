@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   OnInit,
+  output,
   signal,
 } from '@angular/core';
 import {
@@ -22,15 +23,10 @@ import { TextareaModule } from 'primeng/textarea';
 import { Fluid } from 'primeng/fluid';
 import { ChipModule } from 'primeng/chip';
 import { AutoCompleteModule } from 'primeng/autocomplete';
-import { TeamMemberFormComponent } from '../team-member-form/team-member-form.component';
 import { CustomLabelDirective } from '../../../shared/directives/custom-label.directive';
 import { BoardsHttpService } from '../../services/boards-http.service';
-import { User } from '../../../auth/models/user.model';
-
-interface TaskPriorities {
-  label: string;
-  value: string;
-}
+import { DialogModule } from 'primeng/dialog';
+import { ErrorMessageDirective } from '../../../shared/directives/custom-error.directive';
 
 @Component({
   selector: 'board-form',
@@ -45,34 +41,22 @@ interface TaskPriorities {
     DatePickerModule,
     ChipModule,
     AutoCompleteModule,
-    TeamMemberFormComponent,
     CustomLabelDirective,
+    DialogModule,
+    ErrorMessageDirective,
   ],
   templateUrl: './board-form.component.html',
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardFormComponent implements OnInit {
-  private readonly fb = inject(FormBuilder);
+  private readonly fb = inject(FormBuilder); 
   private readonly boardsHttpService = inject(BoardsHttpService);
-  
+  protected readonly taskStatuses = TaskStatus;
+  reloadBoards = output<boolean>();
+
   protected form!: FormGroup;
-  protected membersTeam = signal<User[]>([]);
-  protected readonly statuses = Object.values(TaskStatus);
-  protected readonly priorities: TaskPriorities[] = [
-    {
-      label: 'Urgente',
-      value: 'urgent',
-    },
-    {
-      label: 'Regular',
-      value: 'regular',
-    },
-    {
-      label: 'Importante',
-      value: 'important',
-    },
-  ];
+  visible = signal<boolean>(false);
 
   ngOnInit(): void {
     this.buildForm();
@@ -80,25 +64,21 @@ export class BoardFormComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      owner: ['eae7eafb-238a-4dff-b2d4-8163e869ff0a'],
+      owner: ['1dc0951d-0f82-459b-9705-72c4b375cfe7'],
       name: ['', [Validators.required]],
-      description: [''],
-      memberTeam: [''],
+      description: ['some description'],
     });
-  }
-
-  addMember(member: User) {
-    if (member && !this.membersTeam().includes(member)) {
-      this.membersTeam.update((prev) => [...prev, member]);
-    }
-  }
-  removeMember(member: User) {
-    this.membersTeam.update((prev) => prev.filter((m) => m !== member));
   }
 
   onSubmit() {
     if (!this.form.valid) return;
-    this.boardsHttpService.create(this.form.value).subscribe();
+    this.boardsHttpService.create(this.form.value).subscribe((res) => {
+      console.log(res);
+
+      this.form.reset();
+      this.visible.set(false);
+      this.reloadBoards.emit(true);
+    });
   }
 
   get name(): AbstractControl {
@@ -107,9 +87,5 @@ export class BoardFormComponent implements OnInit {
 
   get description(): AbstractControl {
     return this.form.controls['description'];
-  }
-
-  get memberTeam(): AbstractControl {
-    return this.form.controls['memberTeam'];
   }
 }

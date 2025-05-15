@@ -3,6 +3,8 @@
     <div>
       <label appCustomLabel label="Nombre" for="name"></label>
       <input pInputText formControlName="name" id="name" placeholder="Nombre del tablero" />
+      <span appErrorMessage [errors]="name.errors" [touched]="name.touched" [dirty]="name.dirty">
+      </span>
     </div>
 
     <div>
@@ -11,16 +13,7 @@
         placeholder="Descripción del tablero"></textarea>
     </div>
 
-    <h3>Miembros de equipo:</h3>
-    @if (membersTeam().length > 0) {
-    <div class="flex flex-wrap gap-2 mb-2">
-      @for (memberTeam of membersTeam(); track $index) {
-      <p-chip [label]="memberTeam.email" removable="true" (onRemove)="removeMember(memberTeam)" />
-      }
-    </div>
-    }
-    <team-member-form (memberTeam)="addMember($event)" />
-
     <p-button type="submit" label="Crear" [disabled]="!form.valid" />
+
   </p-fluid>
 </form>

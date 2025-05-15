@@ -18,4 +18,8 @@ export interface Task {
   status: TaskStatus;
   priority: TaskPriority;
   dueDate: Date;
+  board: string;
 }
+
+export interface CreateTaskDto extends Omit<Task, 'id'> {}
+
