@@ -120,4 +120,7 @@ export class TaskFormComponent implements OnInit {
   get board(): AbstractControl {
     return this.form.controls['board'];
   }
+  get taskAssignments(): AbstractControl {
+    return this.form.controls['taskAssignments'];
+  }
 }

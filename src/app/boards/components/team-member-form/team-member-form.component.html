@@ -1,36 +1,55 @@
-<form [formGroup]="form">
-    <p-fluid>
-
-        <p-autocomplete  placeholder="Email o nombre de usuario" [suggestions]="suggestions.value()!" [delay]="500"
-            optionLabel="email" (completeMethod)="query.set($event.query)" (onSelect)="onSelectUser($event.value)">
-            <ng-template let-user #item>
-                <div class="flex flex-col justify-center">
-                    <small class="text-base ">{{user.username}}</small>
-                    <small class="text-sm text-gray-500">{{user.email}}</small>
+<form [formGroup]="membersForm" class="flex flex-col gap-4">
+    <p-fluid >
+        <p-autoComplete [formControl]="searchCtrl" [fluid]="true" [suggestions]="userSuggestions" field="email"
+            [dropdown]="true" [forceSelection]="true" delay="500" [lazy]="loading()" (completeMethod)="onSearch($event)"
+            (onSelect)="onSelectUser($event.value)">
+            <ng-template let-user pTemplate="item">
+                <div>
+                    <div class="font-bold">{{user.username}}</div>
+                    <div class="text-xs text-gray-500">{{user.email}}</div>
                 </div>
             </ng-template>
-        </p-autocomplete>
-
-        @if (user.value) {
-
-        <p-divider />
-
-        <div class="flex flex-col">
-            <div class="flex flex-col ">
-                <label for="username" class="font-bold">Usuario:</label>
-                <input pInputText id="username" [value]="user.value?.username" />
-            </div>
-
-            <div class="flex flex-col ">
-                <label for="roles" class="font-bold">Roles:</label>
-                <p-multiselect [options]="rolesOptions()" placeholder="Select Roles" filter="false" [maxSelectedLabels]="2"
-                    (onChange)="roles.setValue($event.value)" styleClass="w-full" />
-            </div>
-        </div>
-
-        <p-button label="Agregar" icon="pi pi-plus" styleClass="mt-2" />
-        }
-
+        </p-autoComplete>
     </p-fluid>
 
+    <div class="h-full">
+        <p-table [value]="members.controls" *ngIf="members.length > 0">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Usuario</th>
+                    <th>Roles</th>
+                    <th>Acciones</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-row let-i="rowIndex">
+                <tr [formGroup]="row">
+                    <td>
+                        <div>
+                            <div class="font-bold">{{row.value.user.username}}</div>
+                            <div class="text-xs text-gray-500">{{row.value.user.email}}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <p-multiSelect formControlName="roles" [options]="rolesOptions" [maxSelectedLabels]="2"
+                            placeholder="Selecciona roles" [appendTo]="'body'">
+                        </p-multiSelect>
+                        <div *ngIf="row.get('roles')?.invalid && row.get('roles')?.touched"
+                            class="text-red-500 text-xs">
+                            Selecciona al menos un rol.
+                        </div>
+                    </td>
+                    <td>
+                        <button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-sm"
+                            (click)="removeMember(i)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+
+    </div> <p-message *ngIf="errorMsg()" severity="error" [text]="errorMsg()"></p-message>
+
+    <div class="flex justify-end gap-2 mt-4">
+        <button pButton type="button" label="Guardar" class="p-button-primary" (click)="onSave()"></button>
+    </div>
 </form>

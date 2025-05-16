@@ -13,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { TaskFormComponent } from '../../components/task-form/task-form.component';
 import { ActivatedRoute } from '@angular/router';
+import { TeamMemberFormComponent } from '../../components/team-member-form/team-member-form.component';
 
 @Component({
   selector: 'board-detail',
@@ -22,6 +23,7 @@ import { ActivatedRoute } from '@angular/router';
     ButtonModule,
     DialogModule,
     TaskFormComponent,
+    TeamMemberFormComponent, 
   ],
   templateUrl: './board-detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
