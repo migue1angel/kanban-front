@@ -40,8 +40,6 @@ export default class BoardDetailComponent implements OnInit {
   }
 
   protected showTaskFormDialog(event: boolean) {
-    console.log(this.taskFormVisible());
-
     this.taskFormVisible.update((value) => !value);
   }
 

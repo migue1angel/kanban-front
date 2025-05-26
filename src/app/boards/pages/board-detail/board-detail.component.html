@@ -14,5 +14,5 @@
 </p-dialog>
 
 <p-dialog header="Agregar miembro de equipo" [modal]="true" [(visible)]="memberFormVisible" styleClass="h-3/4 w-1/2">
-  <team-member-form [boardId]="id"/>
+  <team-member-form [boardId]="id" (dialogVisible)="memberFormVisible.set($event)" />
 </p-dialog>

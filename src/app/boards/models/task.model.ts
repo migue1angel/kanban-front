@@ -1,3 +1,5 @@
+import { User } from "../../auth/models/user.model";
+
 export enum TaskStatus {
   TODO = 'todo',
   IN_PROGRESS = 'in_progress',
@@ -19,6 +21,7 @@ export interface Task {
   priority: TaskPriority;
   dueDate: Date;
   board: string;
+  taskAssignments: User[];
 }
 
 export interface CreateTaskDto extends Omit<Task, 'id'> {}

@@ -1,63 +1,85 @@
+@if(platformBrowser){
 @if (task()) {
-  <div class="flex my-3  flex-col gap-2 border-2 rounded-md p-3" [ngClass]="{
+<div class="flex my-3  flex-col gap-2 border-2 rounded-md p-3" [ngClass]="{
     'border-red-300 ': task().priority === 'urgent',
     'border-primary-300 ': task().priority === 'important',
     'border-surface-300 ': task().priority === 'regular'
   }">
-    <div class="flex justify-between items-center">
-      <p class="text-xl text-surface-700 dark:text-surface-300 font-bold">
-        {{ task().title }}
-      </p>
-      <p-menu #menu [model]="statusOptions" [popup]="true">
-        <ng-template #start>
-          <div class="flex gap-1 mt-2 items-center justify-center">
-            <p-button severity="primary" size="small" icon="pi pi-pencil"/>
-            <p-button severity="danger" size="small" icon="pi pi-trash"/>
-          </div>
-          <p-divider></p-divider>
-          <span class="ml-2 text-primary">Cambiar estado:</span>
-        </ng-template>
-        <ng-template #item let-item>
-          <div class="cursor-pointer ml-2" (click)="tasksHttpService.changeStatus(task().id, item.status)">
-            <span>{{ item.label }}</span>
-          </div>
-        </ng-template>
-      </p-menu>
-      <p-button (click)="menu.toggle($event)" severity="secondary" size="small" icon="pi pi-ellipsis-v"/>
 
+  <div class="flex justify-between items-center">
+    <p class="text-xl text-surface-700 dark:text-surface-300 font-bold">
+      {{ task().title }}
+    </p>
 
-    </div>
+    <!-- Menu de acciones -->
+    <p-menu #menu [model]="statusOptions" [popup]="true">
+      <ng-template #start>
+        <div class="flex gap-1 mt-2 items-center justify-center">
+          <p-button severity="primary" size="small" icon="pi pi-pencil" />
+          <p-button severity="danger" size="small" icon="pi pi-trash" />
+        </div>
+        <p-divider></p-divider>
+        <span class="ml-2 text-primary">Cambiar estado:</span>
+      </ng-template>
+      <ng-template #item let-item>
+        <div class="cursor-pointer ml-2" (click)="tasksHttpService.changeStatus(task().id, item.status)">
+          <span>{{ item.label }}</span>
+        </div>
+      </ng-template>
+    </p-menu>
+    <p-button (click)="menu.toggle($event)" severity="secondary" size="small" icon="pi pi-ellipsis-v" />
+  </div>
+  
+  <p class="text-sm text-surface-700 dark:text-surface-300">
+    {{ task().description }}
+  </p>
 
-    <div class="flex flex-col text-sm md:flex-row items-start md:items-center mb-2 dark:text-surface-300">
-      <span>{{ task().dueDate | date }}</span>
-    </div>
+  <div class="flex flex-col text-sm md:flex-row items-start md:items-center mb-2 dark:text-surface-300">
+    <span>{{ task().dueDate | date }}</span>
+  </div>
 
-    <span class="flex justify-center max-w-1/2 rounded-lg p-0.5 text-sm" [ngClass]="{
+  <span class="flex justify-center max-w-1/2 rounded-lg p-0.5 text-sm" [ngClass]="{
       'text-red-800 bg-red-300': task().priority === 'urgent',
       'text-primary-800 bg-primary-300': task().priority === 'important',
       'text-surface-800 bg-surface-300': task().priority === 'regular'
     }">{{ task().priority| titlecase }}</span>
 
-    <div class="flex justify-between mt-3">
+  <div class="flex justify-between mt-3">
+    <div class="flex items-center gap-2">
+      @if(task().taskAssignments.length > 1) {
+      <p-button [icon]="icons.USER" size="small" (click)="taskAssignmentsDialogVisible.set(true)" severity="primary"
+        rounded="true" label="Responsables" />
+      <p-dialog header="Responsables" [modal]="true" [(visible)]="taskAssignmentsDialogVisible"
+        [style]="{ width: '25rem' }">
+        <div class="flex flex-col gap-2">
+          @for (user of task().taskAssignments; track user.id) {
+          <div class="flex items-center gap-2">
+            <span [class]="icons.USER"></span>
+            <span>{{user.username}}</span>
+          </div>
+          <p-divider />
+          }
+        </div>
+      </p-dialog>
+      }@else {
       <div class="flex items-center gap-2">
-        <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle"/>
-        <span>John Doe</span>
+        <span [class]="icons.USER"></span>
+        <span>{{task().taskAssignments[0].username}}</span>
       </div>
-      <div class="flex items-center gap-3 cursor-pointer">
-        <p-button [icon]="icons.PAPERCLIP" rounded="true" size="small" severity="secondary"
-                  (click)="showAttachmentsDialog()"></p-button>
-        <p-button [icon]="icons.COMMENTS" rounded="true" size="small" severity="secondary"
-                  (click)="showDialog()"></p-button>
-      </div>
+      }
+    </div>
+    <div class="flex items-center gap-3 cursor-pointer">
+      <!-- <p-button [icon]="icons.PAPERCLIP" rounded="true" size="small" severity="secondary"
+                  (click)="showAttachmentsDialog()"></p-button> -->
+      <p-button [icon]="icons.COMMENTS" rounded="true" size="small" severity="secondary"
+        (click)="showDialog()"></p-button>
     </div>
   </div>
+</div>
 }
-
-
 
 <p-dialog header="Comentarios de la tarea" [modal]="true" [(visible)]="visibleComments" styleClass="h-2/3">
   <!-- hacer el @for -->
-
   <div class="flex flex-col my-2 border border-surface-500 p-2 rounded-xl ">
     <span class="text-xl font-bold"> Username </span>
     <span> loremsjdfklsajdlkfj sjdlkfj laksjdlkfjsalkd j flksadjflk asjdlkfjkl </span>
@@ -77,16 +99,15 @@
 <p-dialog header="Archivos adjuntos" [modal]="true" [(visible)]="visibleAttachments" [style]="{ width: '25rem' }">
   <div class="flex justify-between my-2">
     <h1>aeiofnausoncaosincosincaosindfa</h1>
-    <p-button icon="pi pi-download"/>
+    <p-button icon="pi pi-download" />
   </div>
   <div class="flex justify-between my-2">
     <h1>aeiofnausoncaosincosincaosindfa</h1>
-    <p-button icon="pi pi-download"/>
+    <p-button icon="pi pi-download" />
   </div>
   <div class="flex justify-between my-2">
     <h1>aeiofnausoncaosincosincaosindfa</h1>
-    <p-button icon="pi pi-download"/>
+    <p-button icon="pi pi-download" />
   </div>
-
-
 </p-dialog>
+}

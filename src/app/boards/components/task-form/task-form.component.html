@@ -19,7 +19,13 @@
     </div>
     <div>
       <label for="dueDate" class="form-label">Fecha de vencimiento</label>
-      <p-datepicker formControlName="dueDate" id="dueDate"></p-datepicker>
+      <p-datepicker formControlName="dueDate" id="dueDate" appendTo="body"></p-datepicker>
+    </div>
+    <div class="col-span-2">
+      <label appCustomLabel label="Responsables" for="taskAssignments" class="form-label"></label>
+      <p-multiSelect id="taskAssignments" formControlName="taskAssignments" [options]="teamMembers()"
+        optionLabel="user.username" optionValue="user.id" [maxSelectedLabels]="2" placeholder="Selecciona los responsables" [appendTo]="'body'">
+      </p-multiSelect>
     </div>
 
     <div class="col-span-2">

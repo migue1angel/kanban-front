@@ -1,5 +1,5 @@
 <form [formGroup]="membersForm" class="flex flex-col gap-4">
-    <p-fluid >
+    <p-fluid>
         <p-autoComplete [formControl]="searchCtrl" [fluid]="true" [suggestions]="userSuggestions" field="email"
             [dropdown]="true" [forceSelection]="true" delay="500" [lazy]="loading()" (completeMethod)="onSearch($event)"
             (onSelect)="onSelectUser($event.value)">
@@ -30,8 +30,8 @@
                         </div>
                     </td>
                     <td>
-                        <p-multiSelect formControlName="roles" [options]="rolesOptions" [maxSelectedLabels]="2"
-                            placeholder="Selecciona roles" [appendTo]="'body'">
+                        <p-multiSelect formControlName="roles" [options]="roles()" optionLabel="name"
+                            [maxSelectedLabels]="2" placeholder="Selecciona roles" [appendTo]="'body'">
                         </p-multiSelect>
                         <div *ngIf="row.get('roles')?.invalid && row.get('roles')?.touched"
                             class="text-red-500 text-xs">
@@ -47,7 +47,11 @@
         </p-table>
 
 
-    </div> <p-message *ngIf="errorMsg()" severity="error" [text]="errorMsg()"></p-message>
+    </div>
+
+    @if (errorMsg()) {
+    <p-message severity="error" [text]="errorMsg()"></p-message>
+    }
 
     <div class="flex justify-end gap-2 mt-4">
         <button pButton type="button" label="Guardar" class="p-button-primary" (click)="onSave()"></button>

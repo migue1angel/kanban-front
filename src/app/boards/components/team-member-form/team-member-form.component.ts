@@ -3,8 +3,9 @@ import {
   Component,
   inject,
   signal,
-  PLATFORM_ID,
   input,
+  OnInit,
+  output,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -12,7 +13,7 @@ import {
   ReactiveFormsModule,
   FormArray,
 } from '@angular/forms';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TableModule } from 'primeng/table';
@@ -20,10 +21,12 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
-import { of } from 'rxjs';
 import { User } from '../../../auth/models/user.model';
 import { UsersHttpService } from '../../../auth/services/users-http.service';
 import { FluidModule } from 'primeng/fluid';
+import { TeamMembersHttpService } from '../../services/team-members-http.service';
+import { Role } from '../../models/role.model';
+import { RolesHttpService } from '../../services/roles-http.service';
 
 @Component({
   selector: 'team-member-form',
@@ -38,41 +41,31 @@ import { FluidModule } from 'primeng/fluid';
     DialogModule,
     InputTextModule,
     MessageModule,
-    FluidModule
+    FluidModule,
   ],
   templateUrl: './team-member-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TeamMemberFormComponent {
+export class TeamMemberFormComponent implements OnInit {
   private readonly usersHttpService = inject(UsersHttpService);
+  private readonly teamMembersHttpService = inject(TeamMembersHttpService);
+  private readonly rolesHttpService = inject(RolesHttpService);
   private readonly fb = inject(FormBuilder);
   public boardId = input.required<string>();
-  searchCtrl = this.fb.control('');
-  userSuggestions: User[] = [];
-  loading = signal(false);
-
-  // Roles disponibles
-  rolesOptions = ['Admin', 'User', 'Guest', 'Member'];
-
-  // FormArray para miembros agregados
-  membersForm = this.fb.group({
+  protected searchCtrl = this.fb.control('');
+  protected userSuggestions: User[] = [];
+  protected loading = signal(false);
+  protected roles = signal<Role[]>([]);
+  protected errorMsg = signal('');
+  protected dialogVisible = output<boolean>();
+  protected membersForm = this.fb.group({
     members: this.fb.array([]),
   });
 
-  // Para mensajes de error
-  errorMsg = signal('');
-
-  isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
-
-  constructor() {
-    // No debounce necesario, el autocomplete ya tiene delay
+  ngOnInit(): void {
+    this.getRoles();
   }
 
-  get members(): FormArray {
-    return this.membersForm.get('members') as FormArray;
-  }
-
-  // Cuando el usuario escribe en el autocomplete
   onSearch(event: any) {
     const query = event.query;
     if (!query) {
@@ -88,13 +81,11 @@ export class TeamMemberFormComponent {
       error: () => {
         this.userSuggestions = [];
         this.loading.set(false);
-      }
+      },
     });
   }
 
-  // Cuando selecciona un usuario
   onSelectUser(user: User) {
-    // Evitar duplicados
     if (this.members.value.some((m: any) => m.user.id === user.id)) {
       this.errorMsg.set('El usuario ya está en la lista.');
       return;
@@ -111,12 +102,10 @@ export class TeamMemberFormComponent {
     this.userSuggestions = [];
   }
 
-  // Eliminar usuario de la lista
   removeMember(idx: number) {
     this.members.removeAt(idx);
   }
 
-  // Validar antes de guardar
   onSave() {
     this.errorMsg.set('');
     if (this.members.length === 0) {
@@ -130,11 +119,20 @@ export class TeamMemberFormComponent {
         return;
       }
     }
-    console.log(this.membersForm.value);
-    // Aquí puedes enviar los datos al backend
-    
-    // Aquí envías los datos al backend
-    // this.membersForm.value.members
+
+    this.teamMembersHttpService
+      .addTeamMembers(this.members.value)
+      .subscribe((res) => {
+        this.dialogVisible.emit(false);
+        console.log(res);
+      });
   }
 
+  getRoles() {
+    this.rolesHttpService.findAll().subscribe((res) => this.roles.set(res));
+  }
+
+  get members(): FormArray {
+    return this.membersForm.get('members') as FormArray;
+  }
 }

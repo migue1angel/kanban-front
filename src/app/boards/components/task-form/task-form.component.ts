@@ -6,6 +6,7 @@ import {
   input,
   OnInit,
   output,
+  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -25,6 +26,10 @@ import { TextareaModule } from 'primeng/textarea';
 import { Fluid } from 'primeng/fluid';
 import { TasksHttpService } from '../../services/tasks-http.service';
 import { TasksService } from '../../services/tasks.service';
+import { TeamMember } from '../../models/team-member.model';
+import { TeamMembersHttpService } from '../../services/team-members-http.service';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CustomLabelDirective } from '../../../shared/directives/custom-label.directive';
 
 interface TaskPriorities {
   label: string;
@@ -42,6 +47,8 @@ interface TaskPriorities {
     SelectModule,
     Fluid,
     DatePickerModule,
+    MultiSelectModule,
+    CustomLabelDirective,
   ],
   templateUrl: './task-form.component.html',
   styles: ``,
@@ -51,8 +58,10 @@ export class TaskFormComponent implements OnInit {
   public boardId = input.required<string>();
   private readonly fb = inject(FormBuilder);
   private readonly tasksHttpService = inject(TasksHttpService);
+  private readonly teamMembersHttpService = inject(TeamMembersHttpService);
   private readonly tasksService = inject(TasksService);
   protected closeDialog = output<boolean>();
+  protected readonly teamMembers = signal<TeamMember[]>([]);
   protected readonly priorities: TaskPriorities[] = [
     {
       label: 'Urgente',
@@ -70,6 +79,7 @@ export class TaskFormComponent implements OnInit {
   protected form!: FormGroup;
 
   ngOnInit(): void {
+    this.getTeamMembers();
     this.buildForm();
   }
 
@@ -102,6 +112,11 @@ export class TaskFormComponent implements OnInit {
     });
   }
 
+  getTeamMembers() {
+    this.teamMembersHttpService
+      .getTeamMembersByBoard(this.boardId())
+      .subscribe((res) => this.teamMembers.set(res));
+  }
   get title(): AbstractControl {
     return this.form.controls['title'];
   }

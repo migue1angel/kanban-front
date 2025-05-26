@@ -73,8 +73,6 @@ export class BoardFormComponent implements OnInit {
   onSubmit() {
     if (!this.form.valid) return;
     this.boardsHttpService.create(this.form.value).subscribe((res) => {
-      console.log(res);
-
       this.form.reset();
       this.visible.set(false);
       this.reloadBoards.emit(true);
