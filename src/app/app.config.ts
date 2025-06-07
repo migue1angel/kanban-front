@@ -9,7 +9,12 @@ import {
 import { providePrimeNG } from 'primeng/config';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { MyPreset } from '../../mypreset';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
+import { authInterceptor } from './shared/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,16 +22,15 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
     provideAnimations(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     providePrimeNG({
       theme: {
         preset: MyPreset,
         options: {
-         darkModeSelector: '.my-app-dark', 
+          darkModeSelector: '.my-app-dark',
         },
       },
       ripple: true,
-
     }),
   ],
 };

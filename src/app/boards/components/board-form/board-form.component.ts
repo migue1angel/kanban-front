@@ -1,6 +1,8 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
   OnInit,
   output,
@@ -27,6 +29,8 @@ import { CustomLabelDirective } from '../../../shared/directives/custom-label.di
 import { BoardsHttpService } from '../../services/boards-http.service';
 import { DialogModule } from 'primeng/dialog';
 import { ErrorMessageDirective } from '../../../shared/directives/custom-error.directive';
+import { AuthService } from '../../../auth/services/auth.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'board-form',
@@ -50,25 +54,28 @@ import { ErrorMessageDirective } from '../../../shared/directives/custom-error.d
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BoardFormComponent implements OnInit {
-  private readonly fb = inject(FormBuilder); 
+  private readonly fb = inject(FormBuilder);
+  protected readonly authService = inject(AuthService);
   private readonly boardsHttpService = inject(BoardsHttpService);
   protected readonly taskStatuses = TaskStatus;
   reloadBoards = output<boolean>();
-
-  protected form!: FormGroup;
   visible = signal<boolean>(false);
+  form!: FormGroup;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.buildForm();
   }
-
   buildForm() {
     this.form = this.fb.group({
-      owner: ['1dc0951d-0f82-459b-9705-72c4b375cfe7'],
+      owner: ['', [Validators.required]],
       name: ['', [Validators.required]],
-      description: ['some description'],
+      description: [''],
     });
   }
+
+  setOwner = effect(() => {
+    this.owner.setValue(this.authService.user()?.id);
+  });
 
   onSubmit() {
     if (!this.form.valid) return;
@@ -85,5 +92,8 @@ export class BoardFormComponent implements OnInit {
 
   get description(): AbstractControl {
     return this.form.controls['description'];
+  }
+  get owner(): AbstractControl {
+    return this.form.controls['owner'];
   }
 }

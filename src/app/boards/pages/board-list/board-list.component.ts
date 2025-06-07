@@ -19,6 +19,7 @@ import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { BoardsHttpService } from '../../services/boards-http.service';
 import { Board } from '../../models/board.model';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-board-list',
@@ -38,7 +39,7 @@ import { Board } from '../../models/board.model';
 })
 export class BoardListComponent implements OnInit {
   private readonly boardsHttpService = inject(BoardsHttpService);
-  
+  private readonly authService = inject(AuthService);
   protected boards = signal<Board[]>([]);
   protected searchText = signal('');
   protected filteredBoards = signal<Board[]>([]);
@@ -68,9 +69,15 @@ export class BoardListComponent implements OnInit {
     this.visibleDialogBoardForm.set(true);
   }
 
+  searchBoards = effect(() => {
+    this.authService.user();
+    this.getBoards();
+  });
+
   getBoards() {
+    if (!this.authService.user()) return;
     this.boardsHttpService
-      .findByUserId('1dc0951d-0f82-459b-9705-72c4b375cfe7')
+      .findByUserId(this.authService.user()!.id)
       .subscribe((boards) => {
         this.boards.set(boards);
         this.visibleDialogBoardForm.set(false);

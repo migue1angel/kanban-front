@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
+import { AuthService } from './auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +11,5 @@ import { AccordionModule } from 'primeng/accordion';
 })
 export class AppComponent {
   title = 'kanban-front';
+  authService = inject(AuthService);
 }

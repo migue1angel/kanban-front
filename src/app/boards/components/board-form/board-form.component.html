@@ -2,18 +2,32 @@
   <p-fluid class="grid gap-5">
     <div>
       <label appCustomLabel label="Nombre" for="name"></label>
-      <input pInputText formControlName="name" id="name" placeholder="Nombre del tablero" />
-      <span appErrorMessage [errors]="name.errors" [touched]="name.touched" [dirty]="name.dirty">
+      <input
+        pInputText
+        formControlName="name"
+        id="name"
+        placeholder="Nombre del tablero"
+      />
+      <span
+        appErrorMessage
+        [errors]="name.errors"
+        [touched]="name.touched"
+        [dirty]="name.dirty"
+      >
       </span>
     </div>
 
     <div>
       <label appCustomLabel label="Descripción" for="description"></label>
-      <textarea rows="5" pTextarea formControlName="description" id="description"
-        placeholder="Descripción del tablero"></textarea>
+      <textarea
+        rows="5"
+        pTextarea
+        formControlName="description"
+        id="description"
+        placeholder="Descripción del tablero"
+      ></textarea>
     </div>
 
     <p-button type="submit" label="Crear" [disabled]="!form.valid" />
-
   </p-fluid>
 </form>

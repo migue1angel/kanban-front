@@ -5,23 +5,23 @@
   <ng-template #item let-item>
     @if (item.route) {
     <ng-container>
-      <a [routerLink]="item.route" class="p-menubar-item-link">
+      <a [routerLink]="['/projects', item.route]" class="p-menubar-item-link">
         <span [class]="item.icon"></span>
-        <span >{{ item.label }}</span>
+        <span>{{ item.label }}</span>
       </a>
     </ng-container>
     }@else if (item.url) {
     <ng-template #urlRef>
       <a [href]="item.url" class="p-menubar-item-link">
         <span [class]="item.icon"></span>
-        <span >{{ item.label }}</span>
+        <span>{{ item.label }}</span>
       </a>
     </ng-template>
     }@else{
     <ng-template #noLink>
       <div class="p-menubar-item-link">
         <span [class]="item.icon"></span>
-        <span >{{ item.label }}</span>
+        <span>{{ item.label }}</span>
         <span class="pi pi-fw pi-angle-down ml-2"></span>
       </div>
     </ng-template>
@@ -36,10 +36,31 @@
         [icon]="modeIcon()"
         (click)="toggleDarkMode()"
       />
-      <p-avatar
-        image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-        shape="circle"
+      @if (authService.user()) {
+      <p-button
+        [label]="authService.user()!.username"
+        size="small"
+        [rounded]="true"
+        [icon]="icons.USER"
       />
+      <p-button
+        size="small"
+        label="Cerrar sesión"
+        [rounded]="true"
+        [icon]="icons.SIGN_IN"
+        (click)="authService.logout()"
+      />
+
+      }@else {
+
+      <p-button
+        size="small"
+        label="Ingresar"
+        [rounded]="true"
+        [icon]="icons.SIGN_IN"
+        routerLink="/auth/login"
+      />
+      }
     </div>
   </ng-template>
 </p-menubar>

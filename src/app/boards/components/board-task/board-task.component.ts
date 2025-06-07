@@ -3,12 +3,16 @@ import {
   Component,
   inject,
   input,
-  OnInit,
   PLATFORM_ID,
   signal,
 } from '@angular/core';
 import { DividerModule } from 'primeng/divider';
-import { DatePipe, isPlatformBrowser, NgClass, TitleCasePipe } from '@angular/common';
+import {
+  DatePipe,
+  isPlatformBrowser,
+  NgClass,
+  TitleCasePipe,
+} from '@angular/common';
 import { MessageService, PrimeIcons } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
@@ -35,11 +39,7 @@ import { DialogModule } from 'primeng/dialog';
   templateUrl: './board-task.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BoardTaskComponent implements OnInit{
-  ngOnInit(): void {
-    console.log(this.task()); 
-  }
-
+export class BoardTaskComponent {
   protected readonly tasksHttpService = inject(TasksService);
   public task = input.required<Task>();
   public columnState = input.required<TaskStatus>();
@@ -52,12 +52,12 @@ export class BoardTaskComponent implements OnInit{
   platformId = inject(PLATFORM_ID);
   platformBrowser = isPlatformBrowser(this.platformId);
   showDialog() {
-      this.visibleComments = true;
+    this.visibleComments = true;
   }
   showAttachmentsDialog() {
     this.visibleAttachments = true;
   }
-  
+
   get statusOptions() {
     return this.items.filter((item) => item.status !== this.columnState());
   }

@@ -1,7 +1,7 @@
 <form [formGroup]="membersForm" class="flex flex-col gap-4">
     <p-fluid>
-        <p-autoComplete [formControl]="searchCtrl" [fluid]="true" [suggestions]="userSuggestions" field="email"
-            [dropdown]="true" [forceSelection]="true" delay="500" [lazy]="loading()" (completeMethod)="onSearch($event)"
+        <p-autoComplete [formControl]="searchCtrl" placeholder="Email o username" dropdownIcon="pi pi-search" [fluid]="true" [suggestions]="userSuggestions" field="email"
+            [dropdown]="true" [forceSelection]="true" delay="1000" [lazy]="loading()" (completeMethod)="onSearch($event)"
             (onSelect)="onSelectUser($event.value)">
             <ng-template let-user pTemplate="item">
                 <div>

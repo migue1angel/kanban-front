@@ -124,7 +124,6 @@ export class TeamMemberFormComponent implements OnInit {
       .addTeamMembers(this.members.value)
       .subscribe((res) => {
         this.dialogVisible.emit(false);
-        console.log(res);
       });
   }
 
