@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  effect,
   inject,
   input,
   OnInit,
@@ -62,6 +63,15 @@ export class TaskFormComponent implements OnInit {
   private readonly tasksService = inject(TasksService);
   protected closeDialog = output<boolean>();
   protected readonly teamMembers = signal<TeamMember[]>([]);
+
+  public reloadTeamMembersInput = input<boolean|null>();
+
+  protected reloadTeamMembersEffect = effect(() => {
+    if (this.reloadTeamMembersInput()) {
+      this.getTeamMembers();
+    }
+  });
+
   protected readonly priorities: TaskPriorities[] = [
     {
       label: 'Urgente',

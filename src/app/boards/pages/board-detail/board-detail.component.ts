@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  input,
   OnInit,
   signal,
 } from '@angular/core';
@@ -23,7 +24,7 @@ import { TeamMemberFormComponent } from '../../components/team-member-form/team-
     ButtonModule,
     DialogModule,
     TaskFormComponent,
-    TeamMemberFormComponent, 
+    TeamMemberFormComponent,
   ],
   templateUrl: './board-detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,7 +35,12 @@ export default class BoardDetailComponent implements OnInit {
   protected taskFormVisible = signal<boolean>(false);
   protected memberFormVisible = signal<boolean>(false);
   protected taskStatus = TaskStatus;
+  protected reloadTeamMembers: boolean | null = null;
 
+  onReloadTeamMembers(event: boolean) {
+    this.reloadTeamMembers = event;
+    console.log(this.reloadTeamMembers);
+  }
   ngOnInit(): void {
     this.tasksService.getTasks(this.id);
   }

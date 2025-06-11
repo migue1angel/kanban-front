@@ -12,6 +12,7 @@ import {
   Validators,
   ReactiveFormsModule,
   FormArray,
+  FormGroup,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AutoCompleteModule } from 'primeng/autocomplete';
@@ -58,9 +59,11 @@ export class TeamMemberFormComponent implements OnInit {
   protected roles = signal<Role[]>([]);
   protected errorMsg = signal('');
   protected dialogVisible = output<boolean>();
-  protected membersForm = this.fb.group({
+  protected membersForm: FormGroup = this.fb.group({
     members: this.fb.array([]),
   });
+
+  reloadTeamMembers = output<boolean>();
 
   ngOnInit(): void {
     this.getRoles();
@@ -124,6 +127,7 @@ export class TeamMemberFormComponent implements OnInit {
       .addTeamMembers(this.members.value)
       .subscribe((res) => {
         this.dialogVisible.emit(false);
+        this.reloadTeamMembers.emit(true);
       });
   }
 

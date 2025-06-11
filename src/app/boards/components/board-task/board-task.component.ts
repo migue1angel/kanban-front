@@ -11,6 +11,7 @@ import {
   DatePipe,
   isPlatformBrowser,
   NgClass,
+  SlicePipe,
   TitleCasePipe,
 } from '@angular/common';
 import { MessageService, PrimeIcons } from 'primeng/api';
@@ -34,6 +35,7 @@ import { DialogModule } from 'primeng/dialog';
     ToastModule,
     DatePipe,
     DialogModule,
+    SlicePipe
   ],
   providers: [MessageService],
   templateUrl: './board-task.component.html',

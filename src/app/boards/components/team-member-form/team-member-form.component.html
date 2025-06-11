@@ -31,7 +31,7 @@
                     </td>
                     <td>
                         <p-multiSelect formControlName="roles" [options]="roles()" optionLabel="name"
-                            [maxSelectedLabels]="2" placeholder="Selecciona roles" [appendTo]="'body'">
+                            [maxSelectedLabels]="2" optionValue="id" placeholder="Selecciona roles" [appendTo]="'body'">
                         </p-multiSelect>
                         <div *ngIf="row.get('roles')?.invalid && row.get('roles')?.touched"
                             class="text-red-500 text-xs">

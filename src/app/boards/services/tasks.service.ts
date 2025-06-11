@@ -15,7 +15,7 @@ export class TasksService {
       .subscribe((res) => this.tasks.set(res));
   }
 
-  public changeStatus(id: string, status: TaskStatus): void {
+  public changeStatus(id: string, status: TaskStatus) {
     this.tasks.update((value) => {
       const newTasks = [...value];
       const taskIndex = newTasks.findIndex((task) => task.id === id);
