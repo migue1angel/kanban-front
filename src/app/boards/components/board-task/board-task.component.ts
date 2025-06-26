@@ -22,6 +22,7 @@ import { Menu } from 'primeng/menu';
 import { Task, TaskStatus } from '../../models/task.model';
 import { TasksService } from '../../services/tasks.service';
 import { DialogModule } from 'primeng/dialog';
+import { FeedbackFormComponent } from '../feedback-form/feedback-form.component';
 
 @Component({
   selector: 'board-task',
@@ -35,7 +36,8 @@ import { DialogModule } from 'primeng/dialog';
     ToastModule,
     DatePipe,
     DialogModule,
-    SlicePipe
+    SlicePipe,
+    FeedbackFormComponent
   ],
   providers: [MessageService],
   templateUrl: './board-task.component.html',
@@ -49,10 +51,11 @@ export class BoardTaskComponent {
   protected commentsDialogVisible = signal<boolean>(true);
   protected attachmentsDialogVisible = signal<boolean>(true);
   protected taskAssignmentsDialogVisible = signal<boolean>(false);
-  visibleComments: boolean = false;
-  visibleAttachments: boolean = false;
-  platformId = inject(PLATFORM_ID);
-  platformBrowser = isPlatformBrowser(this.platformId);
+  protected visibleComments: boolean = false;
+  protected visibleAttachments: boolean = false;
+  protected platformId = inject(PLATFORM_ID);
+  protected platformBrowser = isPlatformBrowser(this.platformId);
+  protected showFeedbackForm = signal<boolean>(false);
   showDialog() {
     this.visibleComments = true;
   }

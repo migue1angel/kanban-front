@@ -98,8 +98,6 @@
       </p-dialog>
     </div>
     <div class="flex items-center gap-3 cursor-pointer">
-      <!-- <p-button [icon]="icons.PAPERCLIP" rounded="true" size="small" severity="secondary"
-                  (click)="showAttachmentsDialog()"></p-button> -->
       <p-button
         [icon]="icons.COMMENTS"
         rounded="true"
@@ -118,21 +116,19 @@
   [(visible)]="visibleComments"
   styleClass="h-2/3"
 >
+  <div class="w-full flex justify-end mb-2">
+    <p-button
+      label="Comentario"
+      icon="pi pi-plus"
+      size="small"
+      (click)="showFeedbackForm.set(true)"
+    />
+  </div>
+
+  @if(showFeedbackForm()){
+  <feedback-form (showFeedbackForm)="showFeedbackForm.set($event)" [taskIdInput]="task().id" />
+  }
   <!-- hacer el @for -->
-  <div class="flex flex-col my-2 border border-surface-500 p-2 rounded-xl">
-    <span class="text-xl font-bold"> Username </span>
-    <span>
-      loremsjdfklsajdlkfj sjdlkfj laksjdlkfjsalkd j flksadjflk asjdlkfjkl
-    </span>
-  </div>
-
-  <div class="flex flex-col my-2 border border-surface-500 p-2 rounded-xl">
-    <span class="text-xl font-bold"> Username </span>
-    <span>
-      loremsjdfklsajdlkfj sjdlkfj laksjdlkfjsalkd j flksadjflk asjdlkfjkl
-    </span>
-  </div>
-
   <div class="flex flex-col my-2 border border-surface-500 p-2 rounded-xl">
     <span class="text-xl font-bold"> Username </span>
     <span>

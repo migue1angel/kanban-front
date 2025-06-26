@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <p-fluid class="grid grid-cols-2 gap-4 mb-10">
+    <div class="col-span-2">
+      <label
+        appCustomLabel
+        for="feedback"
+        label="Feedback"
+        class="form-label"
+      ></label>
+      <textarea
+        width="100%"
+        rows="5"
+        pTextarea
+        formControlName="content"
+        id="feedback"
+        placeholder="Escribe tu feedback aquí"
+      ></textarea>
+    </div>
+
+    <div class="col-span-2">
+      <p-button
+        styleClass="col-span-2"
+        type="submit"
+        label="Enviar Feedback"
+        size="large"
+        [disabled]="!form.valid"
+      ></p-button>
+    </div>
+  </p-fluid>
+</form>
+{{form.value | json}}
